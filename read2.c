@@ -12,7 +12,7 @@ int main()
     MYSQL* pconn = mysql_init(&conn);
 
     //与MySQL服务器建立连接
-    pconn = mysql_real_connect(&conn, "localhost", "root", "981027", "cpp58", 0, NULL, 0);
+    pconn = mysql_real_connect(&conn, "localhost", "root", "1234", "cpp58", 0, NULL, 0);
     if(pconn == NULL) {
         printf("%s\n", mysql_error(&conn));
         return EXIT_FAILURE;
