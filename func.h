@@ -32,16 +32,18 @@
 
 typedef void (*sighandler_t)(int);
 
-#define ARGS_CHECK(argc, num)   {\
-    if(argc != num){\
-        fprintf(stderr, "ARGS ERROR!\n");\
-        return -1;\
-    }}
+#define ARGS_CHECK(argc, num)   {         \
+    if(argc != num){                      \
+        fprintf(stderr, "ARGS ERROR!\n"); \
+        return -1;                        \
+    }                                     \
+}
 
-#define ERROR_CHECK(ret, num, msg) {\
-    if(ret == num) {\
-        perror(msg);\
-        return -1;\
-    }}
+#define ERROR_CHECK(ret, num, msg) {      \
+    if(ret == num) {                      \
+        perror(msg);                      \
+        return -1;                        \
+    }                                     \
+}
 
 #endif
