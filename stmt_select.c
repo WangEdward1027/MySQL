@@ -7,9 +7,10 @@
 
 int main()
 {
+    //初始化MYSQL结构体
     MYSQL conn;
     MYSQL * pconn = mysql_init(&conn);
-
+    //连接MySQL服务器
     pconn = mysql_real_connect(pconn,"localhost","root","1234","cpp58",3306,NULL,0);
     if(pconn == NULL) {
         printf("%s\n", mysql_error(&conn));
@@ -19,18 +20,16 @@ int main()
     //初始化MYSQL_STMT
     MYSQL_STMT * stmt = mysql_stmt_init(pconn);
     if(stmt == NULL) {
-        printf("(%d,%s)\n", mysql_errno(pconn),
-               mysql_error(pconn));
+        printf("(%d,%s)\n", mysql_errno(pconn), mysql_error(pconn));
         mysql_close(pconn);
         return EXIT_FAILURE;
     }
 
     //执行PREPARE操作
-    const char * sql = "SELECT * FROM t_user WHERE id > ?";
+    const char * sql = "SELECT * FROM t_user WHERE id >= ?";
     int ret = mysql_stmt_prepare(stmt, sql, strlen(sql));
     if(ret) {
-        printf("(%d, %s)\n", mysql_stmt_errno(stmt),
-               mysql_stmt_error(stmt));
+        printf("(%d, %s)\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));
         mysql_close(pconn);
         return EXIT_FAILURE;
     }
@@ -38,8 +37,7 @@ int main()
     //获取占位符的个数
     int count = mysql_stmt_param_count(stmt);
     if(count != 1) {
-        printf("(%d, %s)\n", mysql_stmt_errno(stmt),
-               mysql_stmt_error(stmt));
+        printf("(%d, %s)\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));
         mysql_close(pconn);
         return EXIT_FAILURE;
     }
@@ -58,8 +56,7 @@ int main()
     //执行绑定操作
     ret = mysql_stmt_bind_param(stmt, &bind);
     if(ret) {
-        printf("(%d, %s)\n", mysql_stmt_errno(stmt),
-               mysql_stmt_error(stmt));
+        printf("(%d, %s)\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));
         mysql_close(pconn);
         return EXIT_FAILURE;
     }
@@ -69,8 +66,7 @@ int main()
     //执行EXECUTE操作
     ret = mysql_stmt_execute(stmt);
     if(ret) {
-        printf("(%d, %s)\n", mysql_stmt_errno(stmt),
-               mysql_stmt_error(stmt));
+        printf("(%d, %s)\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));
         mysql_close(pconn);
         return EXIT_FAILURE;
     }
@@ -113,16 +109,14 @@ int main()
     //执行绑定操作
     ret = mysql_stmt_bind_result(stmt, res_bind);
     if(ret) {
-        printf("(%d, %s)\n", mysql_stmt_errno(stmt),
-               mysql_stmt_error(stmt));
+        printf("(%d, %s)\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));
         mysql_close(pconn);
         return EXIT_FAILURE;
     }
     //再获取数据信息
     ret = mysql_stmt_store_result(stmt);
     if(ret) {
-        printf("(%d, %s)\n", mysql_stmt_errno(stmt),
-               mysql_stmt_error(stmt));
+        printf("(%d, %s)\n", mysql_stmt_errno(stmt), mysql_stmt_error(stmt));
         mysql_close(pconn);
         return EXIT_FAILURE;
     }
